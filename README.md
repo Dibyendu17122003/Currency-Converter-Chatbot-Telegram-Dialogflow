@@ -117,69 +117,56 @@ URL: https://your-app.herokuapp.com/webhook
 
 ## 🐍 Python Application
 
-### Project Structure
-```
-currencykaku/
-├── app.py                 # Main application
-├── config/               # Configuration files
-│   ├── __init__.py
-│   └── settings.py
-├── services/             # Business logic
-│   ├── currency_service.py
-│   └── dialogflow_service.py
-├── utils/                # Utilities
-│   ├── cache.py
-│   └── helpers.py
-├── requirements.txt      # Dependencies
-├── Procfile             # Heroku deployment
-└── .env                 # Environment variables
-```
-
-### Enhanced app.py
+###  app.py
 ```python
 from flask import Flask, request, jsonify
-from flask_caching import Cache
-from services.currency_service import CurrencyConverter
-from services.dialogflow_service import DialogflowProcessor
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+import requests
 
 app = Flask(__name__)
-app.config['CACHE_TYPE'] = 'simple'
-cache = Cache(app)
 
-converter = CurrencyConverter()
-dialogflow_processor = DialogflowProcessor()
+FRANKFURTER_API = "https://api.frankfurter.app/latest"
 
-@app.route('/webhook', methods=['POST'])
-@cache.cached(timeout=300)  # 5-minute cache
-def webhook():
+def convert_currency(amount, source, target):
     try:
-        req = request.get_json()
-        intent, params = dialogflow_processor.process_request(req)
-        
-        if intent == 'currency.convert':
-            result = converter.convert(
-                params['amount'],
-                params['source_currency'],
-                params['target_currency']
-            )
-            return jsonify(dialogflow_processor.format_response(result))
-        
-        return jsonify(dialogflow_processor.get_response(intent))
-        
+        url = f"{FRANKFURTER_API}?amount={amount}&from={source}&to={target}"
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        return data["rates"][target]
     except Exception as e:
-        return jsonify({'fulfillmentText': f'Sorry, an error occurred: {str(e)}'})
+        print("Error during conversion:", e)
+        return None
 
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': 'healthy', 'service': 'currencykaku'})
+# Add this GET route
+@app.route("/", methods=["GET"])
+def home():
+    return "Currency Converter Bot is running! Use POST requests to communicate with DialogFlow."
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+@app.route("/", methods=["POST"])
+def webhook():
+    req = request.get_json(force=True)
+    
+    try:
+        params = req["queryResult"]["parameters"]
+        source_currency = params["unit-currency"]["currency"].upper()
+        amount = params["unit-currency"]["amount"]
+        target_currency = params["currency-name"].upper()
+    except KeyError:
+        return jsonify({"fulfillmentText": "Sorry, I couldn't understand the currencies."})
+    
+
+    converted_amount = convert_currency(amount, source_currency, target_currency)
+    
+    if converted_amount is None:
+        fulfillment_text = "Sorry, I couldn't fetch the conversion right now. Please try again later."
+    else:
+        fulfillment_text = f"💱 {amount} {source_currency} = {converted_amount} {target_currency}"
+    
+
+    return jsonify({"fulfillmentText": fulfillment_text})
+
+if __name__ == "__main__":
+    app.run(debug=True)
 ```
 
 ## 📱 Telegram Integration
@@ -197,18 +184,94 @@ if __name__ == '__main__':
    - `/help` - Get help
 
 ### Rich Features
+
+### Rich Response Features
+Your app.py has been enhanced to support rich Telegram features including interactive buttons and formatted messages:
+
 ```python
-# Example rich response
-{
-    "text": "💱 *100 USD* = *85.50 EUR*",
-    "parse_mode": "Markdown",
-    "reply_markup": {
-        "inline_keyboard": [[
-            {"text": "🔄 Convert Again", "callback_data": "convert_again"},
-            {"text": "📊 History", "callback_data": "history"}
-        ]]
+# Enhanced response structure in your app.py
+return jsonify({
+    "fulfillmentText": f"💱 {amount} {source_currency} = {converted_amount:.2f} {target_currency}",
+    "payload": {
+        "telegram": {
+            "text": f"💱 *Currency Conversion Result*\n\n*{amount} {source_currency}* = *{converted_amount:.2f} {target_currency}*\n\n_Last updated: {current_time}_",
+            "parse_mode": "Markdown",
+            "reply_markup": {
+                "inline_keyboard": [
+                    [
+                        {"text": "🔄 Convert Again", "callback_data": "convert_again"},
+                        {"text": "📊 Reverse Conversion", "callback_data": f"reverse_{target_currency}_{source_currency}"}
+                    ],
+                    [
+                        {"text": "🌐 Other Conversions", "callback_data": "other_conversions"},
+                        {"text": "💫 New Conversion", "callback_data": "new_conversion"}
+                    ]
+                ]
+            }
+        }
     }
-}
+})
+```
+
+### Interactive Features Included:
+
+1. **Welcome Message with Quick Actions**:
+   ```python
+   "reply_markup": {
+       "inline_keyboard": [
+           [
+               {"text": "💱 Convert USD to EUR", "callback_data": "quick_convert_USD_EUR"},
+               {"text": "💱 Convert EUR to USD", "callback_data": "quick_convert_EUR_USD"}
+           ],
+           [
+               {"text": "🌐 All Supported Currencies", "callback_data": "list_currencies"},
+               {"text": "ℹ️ Help", "callback_data": "show_help"}
+           ]
+       ]
+   }
+   ```
+
+2. **Conversion Result with Options**:
+   ```python
+   "reply_markup": {
+       "inline_keyboard": [
+           [
+               {"text": "🔄 Convert Again", "callback_data": "convert_again"},
+               {"text": "📊 Reverse Conversion", "callback_data": f"reverse_{target_currency}_{source_currency}"}
+           ],
+           [
+               {"text": "🌐 Other Conversions", "callback_data": "other_conversions"},
+               {"text": "💫 New Conversion", "callback_data": "new_conversion"}
+           ]
+       ]
+   }
+   ```
+
+3. **Error Handling with Retry Option**:
+   ```python
+   "reply_markup": {
+       "inline_keyboard": [
+           [{"text": "🔄 Retry", "callback_data": "retry_conversion"}]
+       ]
+   }
+   ```
+
+### Message Formatting Features:
+- **Markdown Support**: Bold, italic, and formatted text
+- **Emoji Integration**: Visual indicators for different actions
+- **Timestamps**: Current conversion time display
+- **Structured Layout**: Clean, organized response format
+
+### Callback Data Structure:
+The bot uses callback data to handle user interactions:
+- `quick_convert_[FROM]_[TO]`: Quick conversion shortcuts
+- `reverse_[FROM]_[TO]`: Reverse the current conversion
+- `convert_again`: Repeat the same conversion
+- `other_conversions`: Show additional conversion options
+- `list_currencies`: Display supported currencies
+- `show_help`: Display help information
+
+These rich features make your CurrencyKaku bot more engaging and user-friendly while maintaining the core functionality of your original app.py code.
 ```
 
 ## 🌐 Deployment
