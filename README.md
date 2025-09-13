@@ -2,8 +2,6 @@
 
 A sleek, AI-powered currency conversion Telegram bot built with Dialogflow and Python.
 
-![CurrencyKaku Banner](https://via.placeholder.com/800x200/4C6EF5/FFFFFF?text=💱+CurrencyKaku+Modern+Currency+Converter)
-
 ## 🚀 Live Demo
 **Experience the bot now:** [https://t.me/CurrencyKaku_Dibyendu_bot](https://t.me/CurrencyKaku_Dibyendu_bot)
 
