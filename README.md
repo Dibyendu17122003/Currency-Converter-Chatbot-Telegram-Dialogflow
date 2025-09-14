@@ -351,9 +351,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **Dibyendu Karmahapatra**  
 *Full Stack Developer & AI Enthusiast*
 
-📧 **Email**: [dibyendukarmahapatra04@gmail.com](mailto:dibyendukarmahapatra04@gmail.com)  
-🌐 **GitHub**: [https://github.com/Dibyendu17122004](https://github.com/Dibyendu17122004)  
-💼 **LinkedIn**: [https://linkedin.com/in/dibyendu-karmahapatra](https://linkedin.com/in/dibyendu-karmahapatra)  
+📧 **Email**: [dibyendukarmahapatra04@gmail.com](mailto:dibyendukarmahapatra@gmail.com)  
+🌐 **GitHub**: [https://github.com/Dibyendu17122004](https://github.com/Dibyendu17122003)  
+💼 **LinkedIn**: [https://linkedin.com/in/dibyendu-karmahapatra](https://www.linkedin.com/in/dibyendu-karmahapatra-17d2004/)  
 
 ### GitHub Stats
 
