@@ -357,16 +357,16 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### GitHub Stats
 
-![Dibyendu's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dibyendu17122004&show_icons=true&theme=radical)
+![Dibyendu's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dibyendu17122003&show_icons=true&theme=radical)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dibyendu17122004&layout=compact&theme=radical)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dibyendu17122003&layout=compact&theme=radical)
 
 ### Project Stats
 
-![GitHub Stars](https://img.shields.io/github/stars/Dibyendu17122004/currencykaku?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/Dibyendu17122004/currencykaku?style=social)
-![GitHub Issues](https://img.shields.io/github/issues/Dibyendu17122004/currencykaku)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/Dibyendu17122004/currencykaku)
+![GitHub Stars](https://img.shields.io/github/stars/Dibyendu17122003/currencykaku?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/Dibyendu17122003/currencykaku?style=social)
+![GitHub Issues](https://img.shields.io/github/issues/Dibyendu17122003/currencykaku)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/Dibyendu17122003/currencykaku)
 
 ---
 
