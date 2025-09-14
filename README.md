@@ -363,10 +363,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### Project Stats
 
-![GitHub Stars](https://img.shields.io/github/stars/Dibyendu17122004/Currency-Converter-Chatbot-Telegram-Dialogflow?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/Dibyendu17122004/?style=sociaCurrency-Converter-Chatbot-Telegram-Dialogflowl)
-![GitHub Issues](https://img.shields.io/github/issues/Dibyendu17122004/Currency-Converter-Chatbot-Telegram-Dialogflow)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/Dibyendu17122004/Currency-Converter-Chatbot-Telegram-Dialogflow)
+![GitHub Stars](https://img.shields.io/github/stars/Dibyendu17122003/Currency-Converter-Chatbot-Telegram-Dialogflow?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/Dibyendu17122003/?style=sociaCurrency-Converter-Chatbot-Telegram-Dialogflowl)
+![GitHub Issues](https://img.shields.io/github/issues/Dibyendu17122003/Currency-Converter-Chatbot-Telegram-Dialogflow)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/Dibyendu17122003/Currency-Converter-Chatbot-Telegram-Dialogflow)
 
 ---
 
